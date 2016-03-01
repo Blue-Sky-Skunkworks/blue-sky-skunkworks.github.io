@@ -56,3 +56,22 @@ function visitTickets() {
 function visitSourceCode() {
     visitUrl('https://github.com/Blue-Sky-Skunkworks/hackathon');
 };
+function setupRouting() {
+    page.base('');
+    page('/', function () {
+        selectPage(0);
+    });
+    page('/press-release', function () {
+        selectPage(1);
+    });
+    page('/schedule', function () {
+        selectPage(2);
+    });
+    page('/sharing', function () {
+        selectPage(3);
+    });
+    page('/sponsors', function () {
+        selectPage(4);
+    });
+    page({ hashbang : true });
+};
