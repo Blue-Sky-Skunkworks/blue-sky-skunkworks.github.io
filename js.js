@@ -12,13 +12,24 @@ function getById(id, error) {
         };
     };
 };
-function setupPacking(containerId, item, gutter) {
+function setupPacking37(this38, containerId, item, gutter) {
     if (gutter === undefined) {
-        gutter = 10;
+        gutter = 20;
     };
     var container = getById(containerId);
-    var pack = new Packery(container, { itemSelector : '.' + item, gutter : gutter });
-    container.pack = pack;
+    if (container.pack) {
+        container.pack.layout();
+    } else {
+        container.pack = new Packery(container, { itemSelector : '.' + item, gutter : gutter });
+    };
+};
+function setupPacking(containerId, item, gutter) {
+    console.log(TRACELEVEL, 'setupPacking', ':', 'containerId', containerId, 'item', item, 'gutter', gutter);
+    ++TRACELEVEL;
+    var rtn = setupPacking37(this, containerId, item, gutter);
+    --TRACELEVEL;
+    console.log(TRACELEVEL, 'setupPacking', 'returned', rtn);
+    return rtn;
 };
 function selectPage(index) {
     var pages = getById('pages');
@@ -57,21 +68,22 @@ function visitSourceCode() {
     visitUrl('https://github.com/Blue-Sky-Skunkworks/hackathon');
 };
 function setupRouting() {
-    page.base('');
     page('/', function () {
-        selectPage(0);
+        selectPage(1);
+        setupPacking('top-grid', 'card');
     });
     page('/press-release', function () {
-        selectPage(1);
-    });
-    page('/schedule', function () {
         selectPage(2);
     });
-    page('/sharing', function () {
+    page('/schedule', function () {
         selectPage(3);
     });
-    page('/sponsors', function () {
+    page('/sharing', function () {
         selectPage(4);
+    });
+    page('/sponsors', function () {
+        selectPage(5);
+        setupPacking('sponsors', 'card');
     });
     page({ hashbang : true });
 };
