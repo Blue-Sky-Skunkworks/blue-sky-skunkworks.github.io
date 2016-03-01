@@ -77,5 +77,8 @@ function setupRouting() {
         selectPage(5);
         setupPacking('sponsors', 'card');
     });
+    page('/code-of-conduct', function () {
+        selectPage(6);
+    });
     page({ hashbang : true });
 };
