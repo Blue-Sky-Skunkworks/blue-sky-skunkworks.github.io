@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cp ~/quicklisp/local-projects/hackathon/build/* .
+git commit -a -m "update"
+git push origin
