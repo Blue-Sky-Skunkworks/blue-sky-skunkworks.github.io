@@ -12,7 +12,7 @@ function getById(id, error) {
         };
     };
 };
-function setupPacking37(this38, containerId, item, gutter) {
+function setupPacking(containerId, item, gutter) {
     if (gutter === undefined) {
         gutter = 20;
     };
@@ -22,14 +22,6 @@ function setupPacking37(this38, containerId, item, gutter) {
     } else {
         container.pack = new Packery(container, { itemSelector : '.' + item, gutter : gutter });
     };
-};
-function setupPacking(containerId, item, gutter) {
-    console.log(TRACELEVEL, 'setupPacking', ':', 'containerId', containerId, 'item', item, 'gutter', gutter);
-    ++TRACELEVEL;
-    var rtn = setupPacking37(this, containerId, item, gutter);
-    --TRACELEVEL;
-    console.log(TRACELEVEL, 'setupPacking', 'returned', rtn);
-    return rtn;
 };
 function selectPage(index) {
     var pages = getById('pages');
