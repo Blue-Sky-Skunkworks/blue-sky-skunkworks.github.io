@@ -96,3 +96,9 @@ function animateLogo(el) {
     el.selected = index;
     animateLogos();
 };
+function setMapZoom(z) {
+    var el = getById('map');
+    el.zoom = z;
+    el.latitude = VLAT;
+    el.longitude = VLON;
+};
