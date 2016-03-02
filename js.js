@@ -82,23 +82,3 @@ function setupRouting() {
     });
     page({ hashbang : true });
 };
-function animateLogos() {
-    setTimeout(function () {
-        animateLogo(getById('logos'));
-    }, 5000);
-};
-function animateLogo(el) {
-    var index = parseInt(el.selected);
-    if (index == 5) {
-        index = -1;
-    };
-    index += 1;
-    el.selected = index;
-    animateLogos();
-};
-function setMapZoom(z) {
-    var el = getById('map');
-    el.zoom = z;
-    el.latitude = VLAT;
-    el.longitude = VLON;
-};
