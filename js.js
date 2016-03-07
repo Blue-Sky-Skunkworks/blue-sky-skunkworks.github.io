@@ -102,3 +102,15 @@ function setMapZoom(z) {
     el.latitude = VLAT;
     el.longitude = VLON;
 };
+function animateSponsors() {
+    setTimeout(function () {
+        animateSponsorsWorker(getById('sponsors'));
+    }, 3000);
+};
+function animateSponsorsWorker(el) {
+    var card = el.firstChild;
+    el.removeChild(card);
+    el.appendChild(card);
+    el.pack.resize();
+    animateSponsors();
+};
