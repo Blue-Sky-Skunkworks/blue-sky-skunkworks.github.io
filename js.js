@@ -80,6 +80,9 @@ function setupRouting() {
     page('/code-of-conduct', function () {
         selectPage(6);
     });
+    page('/participate', function () {
+        selectPage(7);
+    });
     page({ hashbang : true });
 };
 function animateLogos() {
