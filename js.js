@@ -105,15 +105,35 @@ function setMapZoom(z) {
     el.latitude = VLAT;
     el.longitude = VLON;
 };
-function animateSponsors() {
+function randomizeChildren(el) {
+    for (var i = el.children.length; i >= 0; i = i - 1) {
+        el.appendChild((el.children)[Math.random() * i | 0]);
+    };
+};
+function animateSponsors126(this127) {
     setTimeout(function () {
         animateSponsorsWorker(getById('sponsors'));
     }, 3000);
 };
-function animateSponsorsWorker(el) {
-    var card = el.firstChild;
-    el.removeChild(card);
-    el.appendChild(card);
-    el.pack.resize();
+function animateSponsors() {
+    console.log(TRACELEVEL, 'animateSponsors', ':');
+    ++TRACELEVEL;
+    var rtn = animateSponsors126(this);
+    --TRACELEVEL;
+    console.log(TRACELEVEL, 'animateSponsors', 'returned', rtn);
+    return rtn;
+};
+function animateSponsorsWorker128(this129, el) {
+    randomizeChildren(el);
+    el.pack = null;
+    setupPacking('sponsors', 'card', 60);
     animateSponsors();
+};
+function animateSponsorsWorker(el) {
+    console.log(TRACELEVEL, 'animateSponsorsWorker', ':', 'el', el);
+    ++TRACELEVEL;
+    var rtn = animateSponsorsWorker128(this, el);
+    --TRACELEVEL;
+    console.log(TRACELEVEL, 'animateSponsorsWorker', 'returned', rtn);
+    return rtn;
 };
