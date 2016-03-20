@@ -110,30 +110,13 @@ function randomizeChildren(el) {
         el.appendChild((el.children)[Math.random() * i | 0]);
     };
 };
-function animateSponsors126(this127) {
+function animateSponsors() {
     setTimeout(function () {
         animateSponsorsWorker(getById('sponsors'));
-    }, 3000);
-};
-function animateSponsors() {
-    console.log(TRACELEVEL, 'animateSponsors', ':');
-    ++TRACELEVEL;
-    var rtn = animateSponsors126(this);
-    --TRACELEVEL;
-    console.log(TRACELEVEL, 'animateSponsors', 'returned', rtn);
-    return rtn;
-};
-function animateSponsorsWorker128(this129, el) {
-    randomizeChildren(el);
-    el.pack = null;
-    setupPacking('sponsors', 'card', 60);
-    animateSponsors();
+    }, 10000);
 };
 function animateSponsorsWorker(el) {
-    console.log(TRACELEVEL, 'animateSponsorsWorker', ':', 'el', el);
-    ++TRACELEVEL;
-    var rtn = animateSponsorsWorker128(this, el);
-    --TRACELEVEL;
-    console.log(TRACELEVEL, 'animateSponsorsWorker', 'returned', rtn);
-    return rtn;
+    randomizeChildren(el);
+    el.pack.fit((el.children)[0], 0, 0);
+    animateSponsors();
 };
