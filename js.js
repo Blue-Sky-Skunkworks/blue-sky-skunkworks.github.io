@@ -83,6 +83,9 @@ function setupRouting() {
     page('/participate', function () {
         selectPage(7);
     });
+    page('/prayer', function () {
+        selectPage(8);
+    });
     page({ hashbang : true });
 };
 function animateLogos() {
@@ -119,4 +122,60 @@ function animateSponsorsWorker(el) {
     randomizeChildren(el);
     el.pack.fit((el.children)[0], 0, 0);
     animateSponsors();
+};
+function stopEvent(event) {
+    if (event) {
+        event.cancelBubble = true;
+        event.stopped = true;
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        };
+        if (navigator.appName == 'Netscape') {
+            event.preventDefault();
+        } else {
+            window.event.returnValue = null;
+        };
+    };
+};
+var GALLERY;
+function stringStartsWith(string, prefix) {
+    return string.indexOf(prefix) == 0;
+};
+function allChildren(element) {
+    return element.getElementsByTagName('*');
+};
+function collectChildrenWithPrefix(root, prefix) {
+    var rtn = new Array();
+    var _js122 = allChildren(root);
+    var _js124 = _js122.length;
+    for (var _js123 = 0, el = _js122[_js123]; _js123 < _js124; _js123 += 1, el = _js122[_js123]) {
+        if (stringStartsWith(el.id, prefix)) {
+            rtn.push(el);
+        };
+    };
+    return rtn;
+};
+function collectContainerImages(container, prefix, currentId) {
+    var index = null;
+    var data = (function () {
+        var caption;
+        var id;
+        var wh;
+        var _js125 = collectChildrenWithPrefix(container, 'i-');
+        var _js127 = _js125.length;
+        var collect128 = [];
+        for (var _js126 = 0, el = _js125[_js126], i = 0; _js126 < _js127; _js126 += 1, el = _js125[_js126], i += 1) {
+            collect128['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        };
+        return collect128;
+    })();
+    return [index, data];
+};
+function showImageGallery(event, containerId, prefix, id) {
+    stopEvent(event);
+    var container = getById(containerId);
+    var images = collectContainerImages(container, prefix, id);
+    var gallery = new PhotoSwipe(getById('kspswp'), PhotoSwipeUI_default, images[1], { index : images[0] });
+    GALLERY = gallery;
+    gallery.init();
 };
