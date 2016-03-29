@@ -86,6 +86,9 @@ function setupRouting() {
     page('/prayer', function () {
         selectPage(8);
     });
+    page('/moon', function () {
+        selectPage(9);
+    });
     page({ hashbang : true });
 };
 function animateLogos() {
@@ -146,9 +149,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js122 = allChildren(root);
-    var _js124 = _js122.length;
-    for (var _js123 = 0, el = _js122[_js123]; _js123 < _js124; _js123 += 1, el = _js122[_js123]) {
+    var _js1 = allChildren(root);
+    var _js3 = _js1.length;
+    for (var _js2 = 0, el = _js1[_js2]; _js2 < _js3; _js2 += 1, el = _js1[_js2]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -161,13 +164,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js125 = collectChildrenWithPrefix(container, 'i-');
-        var _js127 = _js125.length;
-        var collect128 = [];
-        for (var _js126 = 0, el = _js125[_js126], i = 0; _js126 < _js127; _js126 += 1, el = _js125[_js126], i += 1) {
-            collect128['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js4 = collectChildrenWithPrefix(container, 'i-');
+        var _js6 = _js4.length;
+        var collect7 = [];
+        for (var _js5 = 0, el = _js4[_js5], i = 0; _js5 < _js6; _js5 += 1, el = _js4[_js5], i += 1) {
+            collect7['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect128;
+        return collect7;
     })();
     return [index, data];
 };
