@@ -149,9 +149,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js8 = allChildren(root);
-    var _js10 = _js8.length;
-    for (var _js9 = 0, el = _js8[_js9]; _js9 < _js10; _js9 += 1, el = _js8[_js9]) {
+    var _js15 = allChildren(root);
+    var _js17 = _js15.length;
+    for (var _js16 = 0, el = _js15[_js16]; _js16 < _js17; _js16 += 1, el = _js15[_js16]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -164,13 +164,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js11 = collectChildrenWithPrefix(container, 'i-');
-        var _js13 = _js11.length;
-        var collect14 = [];
-        for (var _js12 = 0, el = _js11[_js12], i = 0; _js12 < _js13; _js12 += 1, el = _js11[_js12], i += 1) {
-            collect14['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js18 = collectChildrenWithPrefix(container, 'i-');
+        var _js20 = _js18.length;
+        var collect21 = [];
+        for (var _js19 = 0, el = _js18[_js19], i = 0; _js19 < _js20; _js19 += 1, el = _js18[_js19], i += 1) {
+            collect21['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect14;
+        return collect21;
     })();
     return [index, data];
 };
