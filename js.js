@@ -91,20 +91,6 @@ function setupRouting() {
     });
     page({ hashbang : true });
 };
-function animateLogos() {
-    setTimeout(function () {
-        animateLogo(getById('logos'));
-    }, 5000);
-};
-function animateLogo(el) {
-    var index = parseInt(el.selected);
-    if (index == 5) {
-        index = -1;
-    };
-    index += 1;
-    el.selected = index;
-    animateLogos();
-};
 function setMapZoom(z) {
     var el = getById('map');
     el.zoom = z;
@@ -149,9 +135,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js1 = allChildren(root);
-    var _js3 = _js1.length;
-    for (var _js2 = 0, el = _js1[_js2]; _js2 < _js3; _js2 += 1, el = _js1[_js2]) {
+    var _js1513 = allChildren(root);
+    var _js1515 = _js1513.length;
+    for (var _js1514 = 0, el = _js1513[_js1514]; _js1514 < _js1515; _js1514 += 1, el = _js1513[_js1514]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -164,13 +150,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js4 = collectChildrenWithPrefix(container, 'i-');
-        var _js6 = _js4.length;
-        var collect7 = [];
-        for (var _js5 = 0, el = _js4[_js5], i = 0; _js5 < _js6; _js5 += 1, el = _js4[_js5], i += 1) {
-            collect7['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js1516 = collectChildrenWithPrefix(container, 'i-');
+        var _js1518 = _js1516.length;
+        var collect1519 = [];
+        for (var _js1517 = 0, el = _js1516[_js1517], i = 0; _js1517 < _js1518; _js1517 += 1, el = _js1516[_js1517], i += 1) {
+            collect1519['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect7;
+        return collect1519;
     })();
     return [index, data];
 };
@@ -181,4 +167,115 @@ function showImageGallery(event, containerId, prefix, id) {
     var gallery = new PhotoSwipe(getById('kspswp'), PhotoSwipeUI_default, images[1], { index : images[0] });
     GALLERY = gallery;
     gallery.init();
+};
+var LOGOCELL = null;
+function arc(cx, x, y, radius) {
+    var start;
+    var end;
+    var fill;
+    var lineWidth;
+    var _js1520 = arguments.length;
+    for (var n1512 = 4; n1512 < _js1520; n1512 += 2) {
+        switch (arguments[n1512]) {
+        case 'start':
+            {
+                start = arguments[n1512 + 1];
+            };
+            break;
+        case 'end':
+            {
+                end = arguments[n1512 + 1];
+            };
+            break;
+        case 'fill':
+            {
+                fill = arguments[n1512 + 1];
+            };
+            break;
+        case 'line-width':
+            {
+                lineWidth = arguments[n1512 + 1];
+            };
+        };
+    };
+    if (start === undefined) {
+        start = 0;
+    };
+    if (end === undefined) {
+        end = Math.PI * 2;
+    };
+    if (fill === undefined) {
+        fill = null;
+    };
+    if (lineWidth === undefined) {
+        lineWidth = null;
+    };
+    cx.beginPath();
+    if (lineWidth) {
+        cx.lineWidth = lineWidth;
+    };
+    cx.arc(x, y, radius, start, end, true);
+    if (fill) {
+        cx.fill();
+    } else {
+        cx.stroke();
+    };
+};
+function animateLogo() {
+    var img = document.createElement('img');
+    LOGOCELL = img;
+    img.src = '/images/logo-cell.png';
+    img.addEventListener('load', animateLogoGo);
+};
+var LIFESIZE = 8;
+var LIFE = new Uint8Array(LIFESIZE * LIFESIZE);
+function life(row, col) {
+    return LIFE[row * LIFESIZE + col];
+};
+function setupLife() {
+    var _js1521 = LIFESIZE - 1;
+    for (var row = 0; row <= _js1521; row += 1) {
+        var _js1522 = LIFESIZE - 1;
+        for (var col = 0; col <= _js1522; col += 1) {
+            LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
+        };
+    };
+};
+function animateLogoGo() {
+    var canvas = getById('logo');
+    var cx = canvas.getContext('2d');
+    setupLife();
+    cx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var row = 0; row <= 7; row += 1) {
+        for (var col = 0; col <= 7; col += 1) {
+            if (life(row, col)) {
+                cx.drawImage(LOGOCELL, 1 + col * 43, 2 + row * 42);
+            };
+        };
+    };
+    cx.fillStyle = 'white';
+    cx.strokeStyle = 'white';
+    arc(cx, 173, 181, 33, 'fill', true);
+    arc(cx, 173, 181, 111, 'line-width', 29);
+    cx.beginPath();
+    var theta = Math.PI - Math.PI * (69 / 180);
+    cx.arc(173, 181, 111, theta, theta + (-(Math.PI / 4.4)), true);
+    cx.lineTo(173, 181);
+    cx.fill();
+    cx.save();
+    cx.beginPath();
+    cx.moveTo(173, 164);
+    cx.lineTo(0, 164);
+    cx.lineTo(0, 0);
+    cx.lineTo(350, 0);
+    cx.lineTo(350, 340);
+    cx.lineTo(0, 340);
+    cx.lineTo(0, 198);
+    cx.lineTo(173, 198);
+    cx.clip();
+    arc(cx, 173, 181, 62, 'line-width', 29);
+    cx.restore();
+    setTimeout(function () {
+        animateLogoGo();
+    }, 6000);
 };
