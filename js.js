@@ -89,7 +89,16 @@ function setupRouting() {
     page('/time', function () {
         selectPage(9);
     });
+    page('/government', function () {
+        selectPage(10);
+    });
     page({ hashbang : true });
+};
+function visitUrl(url) {
+    window.open(url, '_blank');
+};
+function viewTestersMessage() {
+    visitUrl('/includes/Senator-Tester-Spring-2016-Hackathon-Message.pdf');
 };
 function setMapZoom(z) {
     var el = getById('map');
@@ -135,9 +144,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js1513 = allChildren(root);
-    var _js1515 = _js1513.length;
-    for (var _js1514 = 0, el = _js1513[_js1514]; _js1514 < _js1515; _js1514 += 1, el = _js1513[_js1514]) {
+    var _js68 = allChildren(root);
+    var _js70 = _js68.length;
+    for (var _js69 = 0, el = _js68[_js69]; _js69 < _js70; _js69 += 1, el = _js68[_js69]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -150,13 +159,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js1516 = collectChildrenWithPrefix(container, 'i-');
-        var _js1518 = _js1516.length;
-        var collect1519 = [];
-        for (var _js1517 = 0, el = _js1516[_js1517], i = 0; _js1517 < _js1518; _js1517 += 1, el = _js1516[_js1517], i += 1) {
-            collect1519['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js71 = collectChildrenWithPrefix(container, 'i-');
+        var _js73 = _js71.length;
+        var collect74 = [];
+        for (var _js72 = 0, el = _js71[_js72], i = 0; _js72 < _js73; _js72 += 1, el = _js71[_js72], i += 1) {
+            collect74['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect1519;
+        return collect74;
     })();
     return [index, data];
 };
@@ -174,27 +183,27 @@ function arc(cx, x, y, radius) {
     var end;
     var fill;
     var lineWidth;
-    var _js1520 = arguments.length;
-    for (var n1512 = 4; n1512 < _js1520; n1512 += 2) {
-        switch (arguments[n1512]) {
+    var _js75 = arguments.length;
+    for (var n67 = 4; n67 < _js75; n67 += 2) {
+        switch (arguments[n67]) {
         case 'start':
             {
-                start = arguments[n1512 + 1];
+                start = arguments[n67 + 1];
             };
             break;
         case 'end':
             {
-                end = arguments[n1512 + 1];
+                end = arguments[n67 + 1];
             };
             break;
         case 'fill':
             {
-                fill = arguments[n1512 + 1];
+                fill = arguments[n67 + 1];
             };
             break;
         case 'line-width':
             {
-                lineWidth = arguments[n1512 + 1];
+                lineWidth = arguments[n67 + 1];
             };
         };
     };
@@ -233,10 +242,10 @@ function life(row, col) {
     return LIFE[row * LIFESIZE + col];
 };
 function setupLife() {
-    var _js1521 = LIFESIZE - 1;
-    for (var row = 0; row <= _js1521; row += 1) {
-        var _js1522 = LIFESIZE - 1;
-        for (var col = 0; col <= _js1522; col += 1) {
+    var _js76 = LIFESIZE - 1;
+    for (var row = 0; row <= _js76; row += 1) {
+        var _js77 = LIFESIZE - 1;
+        for (var col = 0; col <= _js77; col += 1) {
             LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
         };
     };
