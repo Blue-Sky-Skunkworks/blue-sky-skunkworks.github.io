@@ -48,7 +48,7 @@ function visitUrl(url) {
     window.open(url, '_blank');
 };
 function visitEmailList() {
-    visitUrl('https://groups.google.com/forum/#!forum/blue-sky-skunkworks');
+    visitUrl('https://groups.google.com/forum/#!forum/missoula-civic-hackathon');
 };
 function visitWiki() {
     visitUrl('https://github.com/Blue-Sky-Skunkworks/missoula-civic-hackathon-notes/wiki');
@@ -144,9 +144,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js68 = allChildren(root);
-    var _js70 = _js68.length;
-    for (var _js69 = 0, el = _js68[_js69]; _js69 < _js70; _js69 += 1, el = _js68[_js69]) {
+    var _js79 = allChildren(root);
+    var _js81 = _js79.length;
+    for (var _js80 = 0, el = _js79[_js80]; _js80 < _js81; _js80 += 1, el = _js79[_js80]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -159,13 +159,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js71 = collectChildrenWithPrefix(container, 'i-');
-        var _js73 = _js71.length;
-        var collect74 = [];
-        for (var _js72 = 0, el = _js71[_js72], i = 0; _js72 < _js73; _js72 += 1, el = _js71[_js72], i += 1) {
-            collect74['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js82 = collectChildrenWithPrefix(container, 'i-');
+        var _js84 = _js82.length;
+        var collect85 = [];
+        for (var _js83 = 0, el = _js82[_js83], i = 0; _js83 < _js84; _js83 += 1, el = _js82[_js83], i += 1) {
+            collect85['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect74;
+        return collect85;
     })();
     return [index, data];
 };
@@ -183,27 +183,27 @@ function arc(cx, x, y, radius) {
     var end;
     var fill;
     var lineWidth;
-    var _js75 = arguments.length;
-    for (var n67 = 4; n67 < _js75; n67 += 2) {
-        switch (arguments[n67]) {
+    var _js86 = arguments.length;
+    for (var n78 = 4; n78 < _js86; n78 += 2) {
+        switch (arguments[n78]) {
         case 'start':
             {
-                start = arguments[n67 + 1];
+                start = arguments[n78 + 1];
             };
             break;
         case 'end':
             {
-                end = arguments[n67 + 1];
+                end = arguments[n78 + 1];
             };
             break;
         case 'fill':
             {
-                fill = arguments[n67 + 1];
+                fill = arguments[n78 + 1];
             };
             break;
         case 'line-width':
             {
-                lineWidth = arguments[n67 + 1];
+                lineWidth = arguments[n78 + 1];
             };
         };
     };
@@ -242,10 +242,10 @@ function life(row, col) {
     return LIFE[row * LIFESIZE + col];
 };
 function setupLife() {
-    var _js76 = LIFESIZE - 1;
-    for (var row = 0; row <= _js76; row += 1) {
-        var _js77 = LIFESIZE - 1;
-        for (var col = 0; col <= _js77; col += 1) {
+    var _js87 = LIFESIZE - 1;
+    for (var row = 0; row <= _js87; row += 1) {
+        var _js88 = LIFESIZE - 1;
+        for (var col = 0; col <= _js88; col += 1) {
             LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
         };
     };
