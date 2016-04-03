@@ -50,6 +50,9 @@ function visitUrl(url) {
 function visitEmailList() {
     visitUrl('https://groups.google.com/forum/#!forum/missoula-civic-hackathon');
 };
+function joinSchool() {
+    visitUrl('https://groups.google.com/forum/#!forum/missoula-civic-hackathon-students');
+};
 function visitWiki() {
     visitUrl('https://github.com/Blue-Sky-Skunkworks/missoula-civic-hackathon-notes/wiki');
 };
@@ -91,6 +94,9 @@ function setupRouting() {
     });
     page('/government', function () {
         selectPage(10);
+    });
+    page('/school', function () {
+        selectPage(11);
     });
     page({ hashbang : true });
 };
@@ -144,9 +150,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js79 = allChildren(root);
-    var _js81 = _js79.length;
-    for (var _js80 = 0, el = _js79[_js80]; _js80 < _js81; _js80 += 1, el = _js79[_js80]) {
+    var _js101 = allChildren(root);
+    var _js103 = _js101.length;
+    for (var _js102 = 0, el = _js101[_js102]; _js102 < _js103; _js102 += 1, el = _js101[_js102]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -159,13 +165,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js82 = collectChildrenWithPrefix(container, 'i-');
-        var _js84 = _js82.length;
-        var collect85 = [];
-        for (var _js83 = 0, el = _js82[_js83], i = 0; _js83 < _js84; _js83 += 1, el = _js82[_js83], i += 1) {
-            collect85['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js104 = collectChildrenWithPrefix(container, 'i-');
+        var _js106 = _js104.length;
+        var collect107 = [];
+        for (var _js105 = 0, el = _js104[_js105], i = 0; _js105 < _js106; _js105 += 1, el = _js104[_js105], i += 1) {
+            collect107['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect85;
+        return collect107;
     })();
     return [index, data];
 };
@@ -183,27 +189,27 @@ function arc(cx, x, y, radius) {
     var end;
     var fill;
     var lineWidth;
-    var _js86 = arguments.length;
-    for (var n78 = 4; n78 < _js86; n78 += 2) {
-        switch (arguments[n78]) {
+    var _js108 = arguments.length;
+    for (var n100 = 4; n100 < _js108; n100 += 2) {
+        switch (arguments[n100]) {
         case 'start':
             {
-                start = arguments[n78 + 1];
+                start = arguments[n100 + 1];
             };
             break;
         case 'end':
             {
-                end = arguments[n78 + 1];
+                end = arguments[n100 + 1];
             };
             break;
         case 'fill':
             {
-                fill = arguments[n78 + 1];
+                fill = arguments[n100 + 1];
             };
             break;
         case 'line-width':
             {
-                lineWidth = arguments[n78 + 1];
+                lineWidth = arguments[n100 + 1];
             };
         };
     };
@@ -242,10 +248,10 @@ function life(row, col) {
     return LIFE[row * LIFESIZE + col];
 };
 function setupLife() {
-    var _js87 = LIFESIZE - 1;
-    for (var row = 0; row <= _js87; row += 1) {
-        var _js88 = LIFESIZE - 1;
-        for (var col = 0; col <= _js88; col += 1) {
+    var _js109 = LIFESIZE - 1;
+    for (var row = 0; row <= _js109; row += 1) {
+        var _js110 = LIFESIZE - 1;
+        for (var col = 0; col <= _js110; col += 1) {
             LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
         };
     };
