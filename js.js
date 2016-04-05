@@ -98,6 +98,10 @@ function setupRouting() {
     page('/school', function () {
         selectPage(11);
     });
+    page('/media', function () {
+        selectPage(12);
+        setupPacking('medias', 'card', 60);
+    });
     page({ hashbang : true });
 };
 function visitUrl(url) {
@@ -150,9 +154,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js101 = allChildren(root);
-    var _js103 = _js101.length;
-    for (var _js102 = 0, el = _js101[_js102]; _js102 < _js103; _js102 += 1, el = _js101[_js102]) {
+    var _js134 = allChildren(root);
+    var _js136 = _js134.length;
+    for (var _js135 = 0, el = _js134[_js135]; _js135 < _js136; _js135 += 1, el = _js134[_js135]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -165,13 +169,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js104 = collectChildrenWithPrefix(container, 'i-');
-        var _js106 = _js104.length;
-        var collect107 = [];
-        for (var _js105 = 0, el = _js104[_js105], i = 0; _js105 < _js106; _js105 += 1, el = _js104[_js105], i += 1) {
-            collect107['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js137 = collectChildrenWithPrefix(container, 'i-');
+        var _js139 = _js137.length;
+        var collect140 = [];
+        for (var _js138 = 0, el = _js137[_js138], i = 0; _js138 < _js139; _js138 += 1, el = _js137[_js138], i += 1) {
+            collect140['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect107;
+        return collect140;
     })();
     return [index, data];
 };
@@ -189,27 +193,27 @@ function arc(cx, x, y, radius) {
     var end;
     var fill;
     var lineWidth;
-    var _js108 = arguments.length;
-    for (var n100 = 4; n100 < _js108; n100 += 2) {
-        switch (arguments[n100]) {
+    var _js141 = arguments.length;
+    for (var n133 = 4; n133 < _js141; n133 += 2) {
+        switch (arguments[n133]) {
         case 'start':
             {
-                start = arguments[n100 + 1];
+                start = arguments[n133 + 1];
             };
             break;
         case 'end':
             {
-                end = arguments[n100 + 1];
+                end = arguments[n133 + 1];
             };
             break;
         case 'fill':
             {
-                fill = arguments[n100 + 1];
+                fill = arguments[n133 + 1];
             };
             break;
         case 'line-width':
             {
-                lineWidth = arguments[n100 + 1];
+                lineWidth = arguments[n133 + 1];
             };
         };
     };
@@ -248,10 +252,10 @@ function life(row, col) {
     return LIFE[row * LIFESIZE + col];
 };
 function setupLife() {
-    var _js109 = LIFESIZE - 1;
-    for (var row = 0; row <= _js109; row += 1) {
-        var _js110 = LIFESIZE - 1;
-        for (var col = 0; col <= _js110; col += 1) {
+    var _js142 = LIFESIZE - 1;
+    for (var row = 0; row <= _js142; row += 1) {
+        var _js143 = LIFESIZE - 1;
+        for (var col = 0; col <= _js143; col += 1) {
             LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
         };
     };
