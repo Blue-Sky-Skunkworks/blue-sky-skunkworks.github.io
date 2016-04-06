@@ -154,9 +154,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js134 = allChildren(root);
-    var _js136 = _js134.length;
-    for (var _js135 = 0, el = _js134[_js135]; _js135 < _js136; _js135 += 1, el = _js134[_js135]) {
+    var _js2 = allChildren(root);
+    var _js4 = _js2.length;
+    for (var _js3 = 0, el = _js2[_js3]; _js3 < _js4; _js3 += 1, el = _js2[_js3]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -169,13 +169,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js137 = collectChildrenWithPrefix(container, 'i-');
-        var _js139 = _js137.length;
-        var collect140 = [];
-        for (var _js138 = 0, el = _js137[_js138], i = 0; _js138 < _js139; _js138 += 1, el = _js137[_js138], i += 1) {
-            collect140['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js5 = collectChildrenWithPrefix(container, 'i-');
+        var _js7 = _js5.length;
+        var collect8 = [];
+        for (var _js6 = 0, el = _js5[_js6], i = 0; _js6 < _js7; _js6 += 1, el = _js5[_js6], i += 1) {
+            collect8['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect140;
+        return collect8;
     })();
     return [index, data];
 };
@@ -193,27 +193,27 @@ function arc(cx, x, y, radius) {
     var end;
     var fill;
     var lineWidth;
-    var _js141 = arguments.length;
-    for (var n133 = 4; n133 < _js141; n133 += 2) {
-        switch (arguments[n133]) {
+    var _js9 = arguments.length;
+    for (var n1 = 4; n1 < _js9; n1 += 2) {
+        switch (arguments[n1]) {
         case 'start':
             {
-                start = arguments[n133 + 1];
+                start = arguments[n1 + 1];
             };
             break;
         case 'end':
             {
-                end = arguments[n133 + 1];
+                end = arguments[n1 + 1];
             };
             break;
         case 'fill':
             {
-                fill = arguments[n133 + 1];
+                fill = arguments[n1 + 1];
             };
             break;
         case 'line-width':
             {
-                lineWidth = arguments[n133 + 1];
+                lineWidth = arguments[n1 + 1];
             };
         };
     };
@@ -252,10 +252,10 @@ function life(row, col) {
     return LIFE[row * LIFESIZE + col];
 };
 function setupLife() {
-    var _js142 = LIFESIZE - 1;
-    for (var row = 0; row <= _js142; row += 1) {
-        var _js143 = LIFESIZE - 1;
-        for (var col = 0; col <= _js143; col += 1) {
+    var _js10 = LIFESIZE - 1;
+    for (var row = 0; row <= _js10; row += 1) {
+        var _js11 = LIFESIZE - 1;
+        for (var col = 0; col <= _js11; col += 1) {
             LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
         };
     };
