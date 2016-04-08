@@ -102,6 +102,9 @@ function setupRouting() {
         selectPage(12);
         setupPacking('medias', 'card', 60);
     });
+    page('/wiki', function () {
+        selectPage(13);
+    });
     page({ hashbang : true });
 };
 function visitUrl(url) {
@@ -154,9 +157,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js2 = allChildren(root);
-    var _js4 = _js2.length;
-    for (var _js3 = 0, el = _js2[_js3]; _js3 < _js4; _js3 += 1, el = _js2[_js3]) {
+    var _js285 = allChildren(root);
+    var _js287 = _js285.length;
+    for (var _js286 = 0, el = _js285[_js286]; _js286 < _js287; _js286 += 1, el = _js285[_js286]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -169,13 +172,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js5 = collectChildrenWithPrefix(container, 'i-');
-        var _js7 = _js5.length;
-        var collect8 = [];
-        for (var _js6 = 0, el = _js5[_js6], i = 0; _js6 < _js7; _js6 += 1, el = _js5[_js6], i += 1) {
-            collect8['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js288 = collectChildrenWithPrefix(container, 'i-');
+        var _js290 = _js288.length;
+        var collect291 = [];
+        for (var _js289 = 0, el = _js288[_js289], i = 0; _js289 < _js290; _js289 += 1, el = _js288[_js289], i += 1) {
+            collect291['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect8;
+        return collect291;
     })();
     return [index, data];
 };
@@ -193,27 +196,27 @@ function arc(cx, x, y, radius) {
     var end;
     var fill;
     var lineWidth;
-    var _js9 = arguments.length;
-    for (var n1 = 4; n1 < _js9; n1 += 2) {
-        switch (arguments[n1]) {
+    var _js292 = arguments.length;
+    for (var n278 = 4; n278 < _js292; n278 += 2) {
+        switch (arguments[n278]) {
         case 'start':
             {
-                start = arguments[n1 + 1];
+                start = arguments[n278 + 1];
             };
             break;
         case 'end':
             {
-                end = arguments[n1 + 1];
+                end = arguments[n278 + 1];
             };
             break;
         case 'fill':
             {
-                fill = arguments[n1 + 1];
+                fill = arguments[n278 + 1];
             };
             break;
         case 'line-width':
             {
-                lineWidth = arguments[n1 + 1];
+                lineWidth = arguments[n278 + 1];
             };
         };
     };
@@ -252,10 +255,10 @@ function life(row, col) {
     return LIFE[row * LIFESIZE + col];
 };
 function setupLife() {
-    var _js10 = LIFESIZE - 1;
-    for (var row = 0; row <= _js10; row += 1) {
-        var _js11 = LIFESIZE - 1;
-        for (var col = 0; col <= _js11; col += 1) {
+    var _js293 = LIFESIZE - 1;
+    for (var row = 0; row <= _js293; row += 1) {
+        var _js294 = LIFESIZE - 1;
+        for (var col = 0; col <= _js294; col += 1) {
             LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
         };
     };
@@ -297,4 +300,38 @@ function animateLogoGo() {
     setTimeout(function () {
         animateLogoGo();
     }, 6000);
+};
+function setupWiki279(this280) {
+    var req = getById('wch-ajax');
+    var promise = req.send({ url : '/wiki/Home.md' });
+    promise.then(handleWikiResponse, handleWikiError);
+};
+function setupWiki() {
+    console.log(TRACELEVEL, 'setupWiki', ':');
+    ++TRACELEVEL;
+    var rtn = setupWiki279(this);
+    --TRACELEVEL;
+    console.log(TRACELEVEL, 'setupWiki', 'returned', rtn);
+    return rtn;
+};
+function handleWikiResponse281(this282, val) {
+    console.log(val.response, val.statusText);
+};
+function handleWikiResponse(val) {
+    console.log(TRACELEVEL, 'handleWikiResponse', ':', 'val', val);
+    ++TRACELEVEL;
+    var rtn = handleWikiResponse281(this, val);
+    --TRACELEVEL;
+    console.log(TRACELEVEL, 'handleWikiResponse', 'returned', rtn);
+    return rtn;
+};
+function handleWikiError283(this284, val) {
+};
+function handleWikiError(val) {
+    console.log(TRACELEVEL, 'handleWikiError', ':', 'val', val);
+    ++TRACELEVEL;
+    var rtn = handleWikiError283(this, val);
+    --TRACELEVEL;
+    console.log(TRACELEVEL, 'handleWikiError', 'returned', rtn);
+    return rtn;
 };
