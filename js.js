@@ -102,8 +102,12 @@ function setupRouting() {
         selectPage(12);
         setupPacking('medias', 'card', 60);
     });
-    page('/wiki', function () {
+    page('/wiki/:page', function (ctx) {
         selectPage(13);
+        setupWiki(ctx.params.page);
+    });
+    page('/wiki', function () {
+        page('/wiki/Home');
     });
     page({ hashbang : true });
 };
@@ -157,9 +161,9 @@ function allChildren(element) {
 };
 function collectChildrenWithPrefix(root, prefix) {
     var rtn = new Array();
-    var _js285 = allChildren(root);
-    var _js287 = _js285.length;
-    for (var _js286 = 0, el = _js285[_js286]; _js286 < _js287; _js286 += 1, el = _js285[_js286]) {
+    var _js925 = allChildren(root);
+    var _js927 = _js925.length;
+    for (var _js926 = 0, el = _js925[_js926]; _js926 < _js927; _js926 += 1, el = _js925[_js926]) {
         if (stringStartsWith(el.id, prefix)) {
             rtn.push(el);
         };
@@ -172,13 +176,13 @@ function collectContainerImages(container, prefix, currentId) {
         var caption;
         var id;
         var wh;
-        var _js288 = collectChildrenWithPrefix(container, 'i-');
-        var _js290 = _js288.length;
-        var collect291 = [];
-        for (var _js289 = 0, el = _js288[_js289], i = 0; _js289 < _js290; _js289 += 1, el = _js288[_js289], i += 1) {
-            collect291['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
+        var _js928 = collectChildrenWithPrefix(container, 'i-');
+        var _js930 = _js928.length;
+        var collect931 = [];
+        for (var _js929 = 0, el = _js928[_js929], i = 0; _js929 < _js930; _js929 += 1, el = _js928[_js929], i += 1) {
+            collect931['push']((wh = el.getAttribute('image-size').split('x'), id = parseInt(el.getAttribute('document-id')), caption = el.getAttribute('image-caption'), (currentId == id ? (index = i) : null, { src : prefix + id + '.jpg', nodeId : id, w : wh[0], h : wh[1], title : caption })));
         };
-        return collect291;
+        return collect931;
     })();
     return [index, data];
 };
@@ -196,27 +200,27 @@ function arc(cx, x, y, radius) {
     var end;
     var fill;
     var lineWidth;
-    var _js292 = arguments.length;
-    for (var n278 = 4; n278 < _js292; n278 += 2) {
-        switch (arguments[n278]) {
+    var _js932 = arguments.length;
+    for (var n924 = 4; n924 < _js932; n924 += 2) {
+        switch (arguments[n924]) {
         case 'start':
             {
-                start = arguments[n278 + 1];
+                start = arguments[n924 + 1];
             };
             break;
         case 'end':
             {
-                end = arguments[n278 + 1];
+                end = arguments[n924 + 1];
             };
             break;
         case 'fill':
             {
-                fill = arguments[n278 + 1];
+                fill = arguments[n924 + 1];
             };
             break;
         case 'line-width':
             {
-                lineWidth = arguments[n278 + 1];
+                lineWidth = arguments[n924 + 1];
             };
         };
     };
@@ -255,10 +259,10 @@ function life(row, col) {
     return LIFE[row * LIFESIZE + col];
 };
 function setupLife() {
-    var _js293 = LIFESIZE - 1;
-    for (var row = 0; row <= _js293; row += 1) {
-        var _js294 = LIFESIZE - 1;
-        for (var col = 0; col <= _js294; col += 1) {
+    var _js933 = LIFESIZE - 1;
+    for (var row = 0; row <= _js933; row += 1) {
+        var _js934 = LIFESIZE - 1;
+        for (var col = 0; col <= _js934; col += 1) {
             LIFE[row * LIFESIZE + col] = col == 0 || row == 0 || row == LIFESIZE - 1 || col == LIFESIZE - 1 || col == 1 && row == 1 || col == 1 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == LIFESIZE - 2 || col == LIFESIZE - 2 && row == 1 ? (Math.random() < 0.88 ? 1 : 0) : 1;
         };
     };
@@ -301,37 +305,22 @@ function animateLogoGo() {
         animateLogoGo();
     }, 6000);
 };
-function setupWiki279(this280) {
-    var req = getById('wch-ajax');
-    var promise = req.send({ url : '/wiki/Home.md' });
+var WIKIURL = 'https://raw.github.com/wiki/Blue-Sky-Skunkworks/missoula-civic-hackathon-notes/';
+function setupWiki(page) {
+    var req = document.createElement('iron-request');
+    var promise = req.send({ url : (PRODUCTION ? WIKIURL : '/wiki/') + page + '.md' });
     promise.then(handleWikiResponse, handleWikiError);
 };
-function setupWiki() {
-    console.log(TRACELEVEL, 'setupWiki', ':');
-    ++TRACELEVEL;
-    var rtn = setupWiki279(this);
-    --TRACELEVEL;
-    console.log(TRACELEVEL, 'setupWiki', 'returned', rtn);
-    return rtn;
-};
-function handleWikiResponse281(this282, val) {
-    console.log(val.response, val.statusText);
-};
 function handleWikiResponse(val) {
-    console.log(TRACELEVEL, 'handleWikiResponse', ':', 'val', val);
-    ++TRACELEVEL;
-    var rtn = handleWikiResponse281(this, val);
-    --TRACELEVEL;
-    console.log(TRACELEVEL, 'handleWikiResponse', 'returned', rtn);
-    return rtn;
-};
-function handleWikiError283(this284, val) {
+    var el = getById('wiki-body');
+    el.innerHTML = marked(val.response);
 };
 function handleWikiError(val) {
-    console.log(TRACELEVEL, 'handleWikiError', ':', 'val', val);
-    ++TRACELEVEL;
-    var rtn = handleWikiError283(this, val);
-    --TRACELEVEL;
-    console.log(TRACELEVEL, 'handleWikiError', 'returned', rtn);
-    return rtn;
+    console.log('wiki error', val);
+};
+function getInnerHtml(el) {
+    return el.innerHTML;
+};
+function selectIlink(ilink) {
+    page('/wiki/' + ilink.replace(/ /g, '-'));
 };
