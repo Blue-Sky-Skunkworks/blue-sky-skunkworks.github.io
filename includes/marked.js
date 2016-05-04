@@ -457,7 +457,7 @@ var inline = {
   autolink: /^<([^ >]+(@|:\/)[^ >]+)>/,
   url: noop,
   tag: /^<!--[\s\S]*?-->|^<\/?\w+(?:"[^"]*"|'[^']*'|[^'">])*?>/,
-  ilink: /^!?\[\[(inside)\]\]/,
+  ilink: /^\[\[(inside)\]\]/,
   link: /^!?\[(inside)\]\(href\)/,
   reflink: /^!?\[(inside)\]\s*\[([^\]]*)\]/,
   nolink: /^!?\[((?:\[[^\]]*\]|[^\[\]])*)\]/,
@@ -466,6 +466,7 @@ var inline = {
   code: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
   br: /^ {2,}\n(?!\s*$)/,
   del: noop,
+  emoji: noop,
   text: /^[\s\S]+?(?=[\\<!\[_*`]| {2,}\n|$)/
 };
 
@@ -508,8 +509,9 @@ inline.gfm = merge({}, inline.normal, {
   escape: replace(inline.escape)('])', '~|])')(),
   url: /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/,
   del: /^~~(?=\S)([\s\S]*?\S)~~/,
+  emoji: /^:([A-Za-z0-9_\-\+]+?):/,
   text: replace(inline.text)
-    (']|', '~]|')
+    (']|', ':~]|')
     ('|', '|https?://|')
     ()
 });
@@ -577,7 +579,7 @@ InlineLexer.prototype.output = function(src) {
     , cap;
 
   while (src) {
-    // escape
+      // escape
     if (cap = this.rules.escape.exec(src)) {
       src = src.substring(cap[0].length);
       out += cap[1];
@@ -627,25 +629,22 @@ InlineLexer.prototype.output = function(src) {
 
     // link
       if (cap = this.rules.link.exec(src)) {
-      console.log("link");
-
-
           src = src.substring(cap[0].length);
-      this.inLink = true;
-      out += this.outputLink(cap, {
-        href: cap[2],
-        title: cap[3]
-      });
-      this.inLink = false;
-      continue;
-    }
+          this.inLink = true;
+          out += this.outputLink(cap, {
+              href: cap[2],
+              title: cap[3]
+          });
+          this.inLink = false;
+          continue;
+      }
+
     // ilink
     if (cap = this.rules.ilink.exec(src)) {
         src = src.substring(cap[0].length);
-        console.log("ilink",cap);
         this.inLink = true;
-        if (cap[1].charAt(0) === "/"){
-            if (cap[1].endsWith(".png")){
+        if ((cap[1].charAt(0) === "/") || cap[1].startsWith("http")){
+            if (cap[1].toLowerCase().endsWith(".png") || cap[1].toLowerCase().endsWith(".jpg")){
                 out += this.renderer.imglink(cap[1]);
             } else {
                 out += this.renderer.datalink(cap[1]);
@@ -709,10 +708,17 @@ InlineLexer.prototype.output = function(src) {
       continue;
     }
 
+    // emoji
+    if (cap = this.rules.emoji.exec(src)) {
+        src = src.substring(cap[0].length);
+        out += this.renderer.emoji(cap[1]);
+      continue;
+    }
+
     // text
     if (cap = this.rules.text.exec(src)) {
-      src = src.substring(cap[0].length);
-      out += this.renderer.text(escape(this.smartypants(cap[0])));
+        src = src.substring(cap[0].length);
+        out += this.renderer.text(escape(this.smartypants(cap[0])));
       continue;
     }
 
@@ -796,11 +802,19 @@ Renderer.prototype.datalink = function(datalink) {
 };
 
 Renderer.prototype.imglink = function(imglink) {
-  return "<img src=\"/wiki" + imglink + "\" />";
+    if (imglink.startsWith("http")){
+        return "<img src=\"" + imglink + "\" />";
+    } else {
+        return "<img src=\"" + (PRODUCTION ? RAWWIKIURL : "/wiki") + imglink + "\" />";
+    }
 };
 
 Renderer.prototype.ilink = function(ilink) {
   return "<paper-button class='ilink' onclick='selectIlink(\"" + ilink + "\");'>" + ilink + "</paper-button>";
+};
+
+Renderer.prototype.emoji = function(name) {
+    return "<i class='twa twa-3x twa-" + name.replace(/_/g,"-") + "'></i>";
 };
 
 Renderer.prototype.code = function(code, lang, escaped) {
