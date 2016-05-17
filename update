@@ -1,9 +1,0 @@
-#!/bin/bash
-
-cp ~/quicklisp/local-projects/hackathon/build/* .
-rm -rf images includes
-cp -r ~/quicklisp/local-projects/hackathon/images .
-cp -r ~/quicklisp/local-projects/hackathon/includes .
-
-git commit -a -m "update"
-git push origin
